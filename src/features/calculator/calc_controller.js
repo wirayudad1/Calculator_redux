@@ -4,6 +4,7 @@ let initialState = {
   value: 0,
   operation:'',
   result:0,
+  current_oper:'',
   clicknumber:0,
   doing:0,
   cal_display:0,
@@ -24,7 +25,10 @@ export const counterSlice = createSlice({
     operation(state,oper){
       console.log(state,oper)
       operator=oper.payload
-      state.cal_display+=oper.payload
+      if(state.current_oper==''){
+        state.cal_display+=oper.payload
+        state.current_oper=oper.payload
+      }
       state.result=parseFloat(state.value);
       console.log(state.result)
     },
@@ -40,6 +44,7 @@ export const counterSlice = createSlice({
     calculationByAmount: (state, action) => {
       let info=action.payload;
       let data=[];
+      state.current_oper=''
       console.log(info.operation,state.doing)
       if(state.doing==0){
         if(state.clicknumber==0)
