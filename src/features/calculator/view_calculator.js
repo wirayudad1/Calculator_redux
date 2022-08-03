@@ -146,8 +146,9 @@ export function Counter() {
         </button>
         <button
           className={styles.button}
+          onClick={() => dispatch(operation('x'))}
         >
-          *
+          X
         </button>
       </div>
     </div>

@@ -62,7 +62,7 @@ export const counterSlice = createSlice({
       
       //state.cal_display+=action.payload['number']
       state.value=0
-      let lastNumber=(state.cal_display.toString()).split(/[\s()*/%+-]+/)
+      let lastNumber=(state.cal_display.toString()).split(/[\s()x/%+-]+/)
       //let lastNumber=(state.cal_display.toString()).match((/-?\d/g))
       console.log(state.cal_display, lastNumber)
       // if(lastNumber.length==1){
@@ -115,6 +115,13 @@ export const counterSlice = createSlice({
         state.doing=1
         state.value=parseFloat(state.result);
         state.value /= parseFloat(lastNumber[lastNumber.length-1]);
+        state.result=state.value
+        console.log(state.value)
+       }
+       else if(info['operation']=='x'){
+        state.doing=1
+        state.value=parseFloat(state.result);
+        state.value *= parseFloat(lastNumber[lastNumber.length-1]);
         state.result=state.value
         console.log(state.value)
        }
