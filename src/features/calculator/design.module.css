@@ -37,6 +37,23 @@
   font-size: 40px;
   padding: 0 10px 5px 0;
 }
+.lcdresult {
+  font-family: 'Geostar Fill', cursive;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 230px;
+  height: 50px;
+  background-color:rgb(255, 255, 255);
+  box-shadow: inset 0 0 10px #000000;
+  justify-content: flex-end;
+  color:rgb(123, 122, 119);
+  line-height: 100%;
+  text-align: right;
+  align-items: flex-end;
+  font-size: 30px;
+  padding: 0 10px 5px 0;
+}
 .button {
   appearance: none;
   background: none;

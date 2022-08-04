@@ -125,7 +125,7 @@ export const counterSlice = createSlice({
         state.value /= parseFloat(lastNumber[lastNumber.length-1]);
         state.result=state.value
        }
-       else if(info['operation']=='*'){
+       else if(info['operation']=='x'){
         state.doing=1
         if(action.payload['koma']=='.'){
           state.result/=parseFloat(action.payload['lastNumber'])
