@@ -17,6 +17,8 @@ let initialState = {
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
 export let operator =''
+export let coma=null
+export let lastInput=0
 export const counterSlice = createSlice({
   name: 'count',
   initialState,
@@ -24,11 +26,19 @@ export const counterSlice = createSlice({
   reducers: {
     operation(state,oper){
       console.log(state,oper)
-      operator=oper.payload
-      if(state.current_oper==''){
-        state.cal_display+=oper.payload
-        state.current_oper=oper.payload
+      operator=oper.payload['operation']
+      if(state.current_oper==''&&oper.payload['koma']==null){
+        console.log('masukadaoper')
+        state.cal_display+=oper.payload['operation']
+        coma=oper.payload['koma']
+        state.current_oper=oper.payload['operation']
       }
+      if(oper.payload['koma']!=null){
+        state.cal_display+=oper.payload['koma']
+        coma=oper.payload['koma']
+        state.current_oper=operator
+      }
+      
       state.result=parseFloat(state.value);
       console.log(state.result)
     },
@@ -42,6 +52,8 @@ export const counterSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     calculationByAmount: (state, action) => {
+      console.log(action.payload['koma'])
+      
       let info=action.payload;
       let data=[];
       state.current_oper=''
@@ -67,50 +79,38 @@ export const counterSlice = createSlice({
       
       //state.cal_display+=action.payload['number']
       state.value=0
-      let lastNumber=(state.cal_display.toString()).split(/[\s()x/%+-]+/)
+      let lastNumber=(state.cal_display.toString()).split(/[\s()x*/%+-]+/)
       //let lastNumber=(state.cal_display.toString()).match((/-?\d/g))
       console.log(state.cal_display, lastNumber)
-      // if(lastNumber.length==1){
-      //   if(state.cal_display==0)
-      //   {
-      //     state.cal_display+=action.payload['number']
-      //   }
-      //   else{
-      //     state.cal_display+=action.payload['number'].toString()
-      //   }
-      // }
-      // else{
+  
 
-      // }
       if(info['operation']=='+')
       {
+        if(action.payload['koma']=='.'){
+          state.result-=parseFloat(action.payload['lastNumber'])
+        }
         console.log('sumdata')
         state.doing=1
         if(lastNumber.length>=3)
         {
           state.value=parseFloat(state.result);
           state.value += parseFloat(lastNumber[lastNumber.length-1]);
+          console.log(state.value)
         }
         else{
           for(let i=0 ; i<lastNumber.length;i++)
           {
             state.value += parseFloat(lastNumber[i]);
           }
+          console.log(state.value)
         }
       }
       else if(info['operation']=='-'){
         state.doing=1
-        // if(lastNumber.length>3)
-        // {
-        //   state.value=parseFloat(state.result);
-        //   state.value -= parseFloat(lastNumber[lastNumber.length-1]);
-        // }
-        // else{
-        //   for(let i=0 ; i<lastNumber.length;i++)
-        //   {
-        //     state.value -= parseFloat(lastNumber[i]);
-        //   }
-        // }
+
+        if(action.payload['koma']=='.'){
+          state.result+=parseFloat(action.payload['lastNumber'])
+        }
        
         state.value=parseFloat(state.result);
         state.value -= parseFloat(lastNumber[lastNumber.length-1]);
@@ -118,18 +118,25 @@ export const counterSlice = createSlice({
        }
        else if(info['operation']=='/'){
         state.doing=1
+        if(action.payload['koma']=='.'){
+          state.result*=parseFloat(action.payload['lastNumber'])
+        }
         state.value=parseFloat(state.result);
         state.value /= parseFloat(lastNumber[lastNumber.length-1]);
         state.result=state.value
-        console.log(state.value)
        }
-       else if(info['operation']=='x'){
+       else if(info['operation']=='*'){
         state.doing=1
+        if(action.payload['koma']=='.'){
+          state.result/=parseFloat(action.payload['lastNumber'])
+        }
         state.value=parseFloat(state.result);
         state.value *= parseFloat(lastNumber[lastNumber.length-1]);
         state.result=state.value
         console.log(state.value)
        }
+       lastInput=[lastNumber[lastNumber.length-1]]
+      
        console.log(state.result)
 
     },

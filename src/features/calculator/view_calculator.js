@@ -6,6 +6,8 @@ import {
   reset,
   selectCount,
   operator,
+  lastInput,
+  coma,
   cal_display
 } from './calc_controller';
 import styles from './design.module.css';
@@ -33,6 +35,8 @@ export function Counter() {
           onClick={() => dispatch(calculationByAmount({
             number:1,
             operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}              >
           1
         </button>
@@ -41,6 +45,8 @@ export function Counter() {
           onClick={(button) => dispatch(calculationByAmount({
             number:2,
             operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}              >
           2
         </button>
@@ -48,14 +54,19 @@ export function Counter() {
           className={styles.button}
           onClick={(button) => dispatch(calculationByAmount({
             number:3,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}              >
           3
         </button>
         <button
           className={styles.button}
           aria-label="Decrement value"
-          onClick={() => dispatch(operation('-'))}
+          onClick={() => dispatch(operation({
+            operation:'-',
+            koma:null
+        }))}
         >
           -
         </button>
@@ -65,7 +76,9 @@ export function Counter() {
           className={styles.button}
           onClick={() => dispatch(calculationByAmount({
             number:4,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}
         >
           4
@@ -74,7 +87,9 @@ export function Counter() {
           className={styles.asyncButton}
           onClick={() => dispatch(calculationByAmount({
             number:5,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}        >
           5
         </button>
@@ -82,7 +97,8 @@ export function Counter() {
           className={styles.button}
           onClick={() => dispatch(calculationByAmount({
             number:6,
-            operation:operator
+            operation:operator,
+            koma:coma
           }))}      
         >
           6
@@ -90,7 +106,10 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Increment value"
-          onClick={() => dispatch(operation('+'))}
+          onClick={() => dispatch(operation({
+            operation:'+',
+            koma:null
+        }))}
         >
           +
         </button>
@@ -100,7 +119,10 @@ export function Counter() {
           className={styles.button}
           onClick={() => dispatch(calculationByAmount({
             number:7,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
+
           }))}
         >
           7
@@ -109,7 +131,9 @@ export function Counter() {
           className={styles.asyncButton}
           onClick={() => dispatch(calculationByAmount({
             number:8,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}        >
           8
         </button>
@@ -117,7 +141,9 @@ export function Counter() {
           className={styles.button}
           onClick={() => dispatch(calculationByAmount({
             number:9,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}      
         >
           9
@@ -132,7 +158,10 @@ export function Counter() {
       <div className={styles.row}>
         <button
           className={styles.button}
-          onClick={() => dispatch(operation('/'))}
+          onClick={() => dispatch(operation({
+            operation:'/',
+            koma:null
+        }))}
         >
           /
         </button>
@@ -140,15 +169,29 @@ export function Counter() {
           className={styles.asyncButton}
           onClick={() => dispatch(calculationByAmount({
             number:0,
-            operation:operator
+            operation:operator,
+            koma:coma,
+            lastNumber:lastInput,
           }))}        >
           0
         </button>
         <button
           className={styles.button}
-          onClick={() => dispatch(operation('x'))}
+          onClick={() => dispatch(operation({
+            operation:'*',
+            koma:null
+        }))}
         >
           X
+        </button>
+        <button
+          className={styles.button}
+          onClick={() => dispatch(operation({
+              operation:operator,
+              koma:'.'
+          }))}
+        >
+          ,
         </button>
       </div>
     </div>
